@@ -25,6 +25,7 @@ const AddRoom = () => {
                 value=""
             }
         }
+        
         setNewRoom({...newRoom, [name]:value})
     }
 

@@ -8,6 +8,7 @@ import com.athina.lakesidehotel.response.RoomResponse;
 import com.athina.lakesidehotel.service.BookingService;
 import com.athina.lakesidehotel.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 //used to create RESTful APIs.combination of @Controller(for handling web requests), @ResponseBody(to return JSON data instead of a view)
 @RequiredArgsConstructor
@@ -62,6 +64,12 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/delete/room/{roomId}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable Long roomId) {
+        roomService.deleteRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
     private RoomResponse getRoomResponse(Room room) {
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
@@ -94,6 +102,8 @@ public class RoomController {
         return bookingService.getAllBookingsByRoomId(roomId);
 
     }
+
+
 
 
 }
