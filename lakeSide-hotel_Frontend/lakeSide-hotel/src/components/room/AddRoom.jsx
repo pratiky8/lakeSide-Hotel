@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import RoomTypeSelector from '../common/RoomTypeSelector'
 import { addRoom } from '../utils/ApiFunctions'
+import { Link } from 'react-router-dom';
 
 const AddRoom = () => {
     const[newRoom, setNewRoom]=useState({
@@ -14,20 +15,31 @@ const AddRoom = () => {
     const [successMessage,setSuccessMessage]=useState("")
     const [errorMessage,setErrorMessage]=useState("")
 
-//Handle the Room input change
-    const handleRoomInputChange=(e)=>{
-        const name=e.target.name
-        let value=e.target.value
-        if(name===value){
-            if(!isNaN(value)){
-                value.parseInt(value)
-            }else{
-                value=""
-            }
-        }
+// //Handle the Room input change
+//     const handleRoomInputChange=(e)=>{
+//         const name=e.target.name
+//         let value=e.target.value
+//         if(name===value){
+//             if(!isNaN(value)){
+//                 value.parseInt(value)
+//             }else{
+//                 value="";
+//             }
+//         }
         
-        setNewRoom({...newRoom, [name]:value})
-    }
+//         setNewRoom({...newRoom, [name]:value})
+//     }
+
+//chatGPT
+const handleRoomInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setNewRoom(prevState => ({
+        ...prevState,
+        [name]: name === "roomPrice" ? parseInt(value) || "" : value
+    }));
+};
+
 
 //Handle the Image Change
     const handleImageChange=(e)=>{
@@ -123,6 +135,9 @@ const AddRoom = () => {
                 </div>
 
                 <div className='d-grid d-md-flex mt-2'>
+                    <Link to={"/existing-rooms"} className="btn btn-outline-info">
+                    Back
+                    </Link>
                     <button className='btn btn-outline-primary ml-5'>
                         Save Room
                     </button>
