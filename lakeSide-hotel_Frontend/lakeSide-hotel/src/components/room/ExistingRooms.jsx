@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import RoomPaginator from '../common/RoomPaginator';
 import RoomFilter from '../common/RoomFilter';
 import { deleteRoom, getAllRooms } from '../utils/ApiFunctions';
-import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa';
+import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
 
 
 const ExistingRooms = () => {
@@ -45,15 +46,19 @@ const ExistingRooms = () => {
         setCurrentPage(1);
     }, [rooms, selectedRoomType])
 
+
+
     const handlePaginationClick = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
+
+
 
     const handleDelete= async(roomId)=>{
         try {
             const result= await deleteRoom(roomId);
             if(result=== ""){
-                setSuccessMessage(`Room No. ${roomId} was deleted`)
+                setSuccessMessage(`Room No. ${roomId} was delete`)
                 fetchRooms();
             }else{
                 console.error(`Error deleting room : ${result.message}`)
@@ -85,24 +90,33 @@ const ExistingRooms = () => {
 
     return (
         <>
+        <div className='container col-md-8 col-lg-6'>
+            {successMessage && <p className='alert alert-danger mt-5'>{successMessage}</p>}
+            {errorMessage && <p className='alert alert-danger mt-5'>{errorMessage}</p>}
+        </div>
+
             {isLoading ? (
                 <p>Loading existing rooms</p>
             ) : (
                 <>
                     <section className='mt-5 mb-5 container'>
-                        <div className='d-flex justify-content-center mb-3 mt-5'>
+                        <div className='d-flex justify-content-between mb-3 mt-5'>
                             <h2>Existing Rooms</h2>
                         </div>
 
-                        {/* <col md={6} className='mb-3 mb-md-0'>
-                            <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
-                        </col> */}
-                        <div className='row'> {/*add extra by chatGPT whole div */}
-                        <div className="col-md-6 mb-3 mb-md-0">
-                            <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
-                        </div>
-                        </div>
+                        <Row>
 
+                        <Col md={6} className='mb-3 mb-md-0'>
+                            <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
+                        </Col>
+
+                        <Col md={6} className='d-flex justify-content-end'>
+                        <Link to={"/add-room"}>
+                        <FaPlus/> Add Room
+                        </Link>
+                        </Col>
+
+                        </Row>
 
                         <table className='table table-bordered table-hover'>
                             <thead >
