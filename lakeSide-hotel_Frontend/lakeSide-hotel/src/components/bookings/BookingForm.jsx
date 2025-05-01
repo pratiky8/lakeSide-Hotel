@@ -228,7 +228,7 @@ const handleBooking= async ()=>{
         <div className='col-md-6'>
           {isSubmitted && (
             <BookingSummary
-            booking={booking} payment={calculatePayment}
+            booking={booking} payment={calculatePayment()}
             isFormValid={isValidated} onConfirm={handleBooking}/>
           )}
         </div>
